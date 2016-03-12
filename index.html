@@ -1,18 +1,37 @@
 <html>
 <head>
 <title>Elinor's Hangman Game</title>
+<script>
+function startOnePlayer() {
+  alert("Hello");
+  toggleStart();
+  //TODO
+}
+
+function startTwoPlayer() {
+  toggleStart();
+  //TODO
+}
+
+function toggleStart() {
+  //Hide the start DIV and show the play DIV
+  document.getElementById("play").style.diplay = "block";
+  document.getElementById("start").style.diplay = "none";
+}
+</script>
+
 </head>
 <body>
 <form>
 <div align=left size="50%"><img id="hangman" href="0.jpg"></div>
-<div align=right size="50%"></div>
+<div align=right size="50%" id="usedletters"></div>
+<hr/>
 <div id="start">
-<div id="player1"></div>
-<div id="player2"></div>
+<div id="player1">1 Player:  <button type="button" onlick="startOnePlayer();">Random Word</button></div>
+<hr/>
+<div id="player2">2 Player:  <input type="password" /> <button type="button" onclick="startTwoPlayer();">Start</button></div>
 </div>
-<div id="play"></div>
+<div id="play" style="display:none">_ _ _ _ _</div>
 </form>
-<script type="javascript">
-</script>
 </body>
 </html>
