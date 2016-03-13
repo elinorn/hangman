@@ -1,37 +1,76 @@
 <html>
 <head>
 <title>Elinor's Hangman Game</title>
-<script>
-function startOnePlayer() {
-  alert("Hello");
-  toggleStart();
-  //TODO
-}
+<style>
+</style>
+<script type="text/javascript">
+<!--
+  var wrong = "hi";
+  var word = "";
 
-function startTwoPlayer() {
-  toggleStart();
-  //TODO
-}
+  function toggleVisibility(id) {
+    var e = document.getElementById(id);
+    if(e.style.display == 'block')
+      e.style.display = 'none';
+    else
+      e.style.display = 'block';
+  };
 
-function toggleStart() {
-  //Hide the start DIV and show the play DIV
-  document.getElementById("play").style.diplay = "block";
-  document.getElementById("start").style.diplay = "none";
-}
+  function startOnePlayer() {
+    alert("Selecting a word at random...No not really.");
+    toggleVisibility("start");
+    toggleVisibility("play");
+    toggleVisibility("guessed");
+    word = "HANGMAN";
+  };
+
+  function startTwoPlayer() {
+    toggleVisibility("start");
+    toggleVisibility("play");
+    toggleVisibility("guessed");
+    word = document.getElementById("word").value.toUpperCase();
+  };
+
+  function updateWrong(letter) {
+    wrong += letter;
+    document.getElementById("hangman").src = wrong.length + ".png";
+    document.getElementById("wrongletters").text = wrong;
+  };
+
+  function guess() {
+    var letter = document.getElementById('guess').value.toUpperCase();
+    alert(letter);
+    if (true) {
+      //Correct
+      updateWrong(letter);
+    } else {
+      //wrong
+      updateWrong(letter);
+    }
+    document.getElementById('guess').value = "";
+  };
+//-->
 </script>
 
 </head>
-<body>
-<form>
-<div align=left size="50%"><img id="hangman" href="0.jpg"></div>
-<div align=right size="50%" id="usedletters"></div>
-<hr/>
-<div id="start">
-<div id="player1">1 Player:  <button type="button" onlick="startOnePlayer();">Random Word</button></div>
-<hr/>
-<div id="player2">2 Player:  <input type="password" /> <button type="button" onclick="startTwoPlayer();">Start</button></div>
-</div>
-<div id="play" style="display:none">_ _ _ _ _</div>
-</form>
-</body>
+  <body>
+    <form>
+      <div id="top">
+        <div id="hangmandiv"><img id="hangman" src="0.png" height="50%" width="50%"></div>
+        <div id="guessed" style="display:none"><p><b><i>Wrongly Guessed Letters:</i></b></p><p id="wrongletters"></p></div>
+      </div>
+      <hr>
+      <div id="bottom">
+        <div id="start" style="display:block">
+          <div id="player1">1 Player:  <button type="button" onclick="startOnePlayer()" >Random Word</button></div>
+          <hr/>
+          <div id="player2">2 Player:  <input type="password" id="word"/> <button type="button" onclick="startTwoPlayer()" >Start</button></div>
+        </div>
+        <div id="play" style="display:none">
+          <div id="answer"></div>
+          <div> <input type="text" size="1" id="guess" /> <button type="button" onclick="guess()">Guess</button></div>
+        </div>
+      </div>
+    </form>
+  </body>
 </html>
