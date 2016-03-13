@@ -7,7 +7,7 @@
 <!--
   var wrong = "";
   var word = "";
-  var right = ""
+  var rightword = "";
 
   function toggleVisibility(id) {
     var e = document.getElementById(id);
@@ -21,8 +21,10 @@
     toggleVisibility("start");
     toggleVisibility("play");
     word = aWord.toUpperCase();
-    right = "_".repeat(word.lenght);
-    document.getElementById("wrongletters").innerHTML = right;
+    var underscores = "_";
+    rightword = underscores.repeat(word.length);
+    document.getElementById("answer").innerHTML = addspaces(rightword);
+    document.getElementById("hangman").src = "0.png";
   };
 
   function startOnePlayer() {
@@ -35,8 +37,13 @@
 
   function updateWrong(letter) {
     wrong += letter;
-    document.getElementById("hangman").src = wrong.length + ".png";
-    document.getElementById("wrongletters").innerHTML = wrong;
+    if (wrong.length > 11) {
+      //you lose
+      finished("lost");
+    } else {
+      document.getElementById("hangman").src = wrong.length + ".png";
+      document.getElementById("wrongletters").innerHTML = addspaces(wrong);
+    }
   };
 
   function updateRight(letter) {
@@ -45,17 +52,38 @@
       if (word.charAt(i) == letter) {
           newright += letter;
       } else {
-        newright += right.charAt(i);
+        newright += rightword.charAt(i);
       }
     }
-    right = newright;
-    document.getElementById("wrongletters").innerHTML = right;
+    rightword = newright;
+    document.getElementById("answer").innerHTML = addspaces(rightword);
+    if (rightword.includes("_") == false) {
+      finished("win");
+    }
+  };
+
+  function addspaces(theword) {
+    var returnword = "";
+    for (i = 0; i < theword.length; i++) {
+      returnword += (theword.charAt(i) + " ");
+    }
+    return returnword;
+  };
+
+  function finished(outcome) {
+    toggleVisibility("guessspace");
+    toggleVisibility("reset");
+    document.getElementById("hangman").src = outcome + ".png";
+  };
+
+  function startover() {
+    window.location.reload();
   };
 
   function test() {
     var letter = document.getElementById('guess').value.toUpperCase();
     if (wrong.includes(letter)) {
-      //Already guessed, TODO alert
+      //Already guessed
     } else {
       if (word.includes(letter)) {
         //Correct
@@ -88,7 +116,8 @@
           <div><p><b><i>Wrongly Guessed Letters:</i></b></p><p id="wrongletters"></p></div>
           <hr />
           <div id="answer"></div>
-          <div> <input type="text" size="1" id="guess" tabindex=1 onkeypress="if (event.keyCode == 13) document.getElementById('makeGuess').click()"/> <button id="makeGuess" type="button" onclick="test()"> Guess </button></div>
+          <div id="guessspace" style="display:block"><p /> <input type="text" size="1" id="guess" tabindex=1 onkeypress="if (event.keyCode == 13) document.getElementById('makeGuess').click()"> <button id="makeGuess" type="button" onclick="test()"> Guess </button></div>
+          <div id="reset" style="display:none"><button type="button" id="startoverbutton" onclick="startover()" > Start Over </button></div>
         </div>
       </div>
     </form>
