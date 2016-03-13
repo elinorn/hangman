@@ -22,10 +22,10 @@
     toggleVisibility("play");
     word = aWord.toUpperCase();
     right = "_".repeat(word.lenght);
+    document.getElementById("wrongletters").innerHTML = right;
   };
 
   function startOnePlayer() {
-    alert("Selecting a word at random...No not really.");
     start("HANGMAN");
   };
 
@@ -40,11 +40,19 @@
   };
 
   function updateRight(letter) {
-    /* TODO Need to loop doing 'word'.indexOf and
-    replacing 'right' character location with the letter*/
-  }
+    var newright = "";
+    for (i = 0; i < word.length; i++) {
+      if (word.charAt(i) == letter) {
+          newright += letter;
+      } else {
+        newright += right.charAt(i);
+      }
+    }
+    right = newright;
+    document.getElementById("wrongletters").innerHTML = right;
+  };
 
-  function makeGuess() {
+  function test() {
     var letter = document.getElementById('guess').value.toUpperCase();
     if (wrong.includes(letter)) {
       //Already guessed, TODO alert
@@ -58,6 +66,7 @@
       }
     }
     document.getElementById('guess').value = "";
+    return true;
   };
 //-->
 </script>
@@ -66,7 +75,7 @@
   <body>
     <form>
       <div id="top">
-        <div style="width:50%" id="hangmandiv"><img id="hangman" src="0.png"></div>
+        <div style="width:50%" id="hangmandiv"><img id="hangman" src="start.png"></div>
       </div>
       <hr />
       <div id="bottom">
@@ -79,7 +88,7 @@
           <div><p><b><i>Wrongly Guessed Letters:</i></b></p><p id="wrongletters"></p></div>
           <hr />
           <div id="answer"></div>
-          <div> <input type="text" size="1" id="guess" /> <button type="button" onclick="makeGuess()">Guess</button></div>
+          <div> <input type="text" size="1" id="guess" tabindex=1 onkeypress="if (event.keyCode == 13) document.getElementById('makeGuess').click()"/> <button id="makeGuess" type="button" onclick="test()"> Guess </button></div>
         </div>
       </div>
     </form>
