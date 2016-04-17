@@ -1,10 +1,35 @@
 <html>
 <head>
-<title>Elinor's Hangman Game</title>
+<title>Hangman Game</title>
 <style>
 </style>
-<script type="text/javascript">
+<script>
 <!--
+  var difficulty = new Object();
+  difficulty.easy = ["exit",
+  "car",
+  "small",
+  "gas",
+  "no",
+  "time"];
+
+  difficulty.medium = ["magnet",
+  "school",
+  "road",
+  "lion",
+  "little",
+  "self",
+  "creek",
+  "house"];
+
+  difficulty.hard = ["nutrition",
+  "rainbow",
+  "beware",
+  "apartment",
+  "traveling",
+  "storage",
+  "parking"];
+
   var wrong = "";
   var word = "";
   var rightword = "";
@@ -27,8 +52,12 @@
     document.getElementById("hangman").src = "0.png";
   };
 
-  function startOnePlayer() {
-    start("HANGMAN");
+  function startOnePlayer(level) {
+    //start("HANGMAN");
+    var list = difficulty[level];
+    var loc = Math.floor(Math.random() * ((list.length)-0)) + 0 + 1
+    var startword = list[loc];
+    start(startword);
   };
 
   function startTwoPlayer() {
@@ -105,11 +134,10 @@
       <div id="top">
         <div style="width:50%" id="hangmandiv"><img id="hangman" src="start.png"></div>
       </div>
-      <hr />
       <div id="bottom">
         <div id="start" style="display:block">
-          <div id="player1">1 Player:  <button type="button" onclick="startOnePlayer()" >Random Word</button></div>
-          <hr />
+          <div id="player1">1 Player (Random Word):  <button type="button" onclick="startOnePlayer('easy')" >Easy</button> <button type="button" onclick="startOnePlayer('medium')" >Medium</button> <button type="button" onclick="startOnePlayer('hard')" >Hard</button></div>
+          <br />
           <div id="player2">2 Player:  <input type="password" id="word"/> <button type="button" onclick="startTwoPlayer()" >Start</button></div>
         </div>
         <div id="play" style="display:none">
